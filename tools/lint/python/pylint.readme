@@ -1,0 +1,16 @@
+Copy .pylinrc to ~/.pylintrc
+or generate pylintrc and modify it:
+pylint --generate-rcfile > ~/.pylintrc
+vi ~/.pylintrc
+and edit the following lines:
+
+# Maximum number of characters on a single line.
+max-line-length=120
+
+# Maximum number of attributes for a class (see R0902).
+max-attributes=12
+
+# Minimum number of public methods for a class (see R0903).
+min-public-methods=0
+
+disable=I0011
