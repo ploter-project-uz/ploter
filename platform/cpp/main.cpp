@@ -1,6 +1,4 @@
 #include "commands.hpp"
-#include "commands.cpp"
-
 
 int main() {
   ifstream fin;
@@ -28,8 +26,10 @@ int main() {
     n++;
   }
  
-  for(int i = 0; i < vCommands.size(); i++)
-    vCommands[i]->execute();
+  for(Command::SPtr& command: vCommands) {
+    command->execute();
+  }
+  return 0;
 }
 
 

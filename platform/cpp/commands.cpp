@@ -1,3 +1,5 @@
+#include "commands.hpp"
+
 void Command::testAllParameters(char* parametrs, const vector<string> &token, int n)
 {
   //jezeli podano nieprawidlowy parametr, wypisujemy blad
@@ -67,9 +69,9 @@ vector<string> Parser::getCopyOfVector()
 class G0: public Command
 {
 private:
-  float x;
-  float y;
-  float z;
+  float m_x;
+  float m_y;
+  float m_z;
 
 public:
   //jezeli jakis parametr ma miec wartosc domyslna inna niz 0 nalezy wywolac 
@@ -86,16 +88,16 @@ public:
   }
 
   void createCommand(const vector<string> &token) {
-    map<char, float> mapa;
-    mapa = initialize(token); //pobieramy tablice asocjacyjna 
-    x = mapa['x'];            
-    y = mapa['y'];           //jezeli jakis parametr ma miec inna wartosc domyslna
-    z = mapa['z'];           //niz 0 to jego przypisanie umieszczamy 
-                             //w  if(mapa.find('[nazwa_pola]') != mapa.end()) 
+    map<char, float> parameters;
+    parameters = initialize(token); //pobieramy tablice asocjacyjna 
+    m_x = parameters['x'];            
+    m_y = parameters['y'];           //jezeli jakis parametr ma miec inna wartosc domyslna
+    m_z = parameters['z'];           //niz 0 to jego przypisanie umieszczamy 
+                             //w  if(parameters.find('[nazwa_pola]') != parameters.end()) 
   }
 
   void execute() {
-    cout << "G00 X=" << x << " Y=" << y << " Z=" << z << endl;
+    cout << "G00 X=" << m_x << " Y=" << m_y << " Z=" << m_z << endl;
   }
 };
 
@@ -103,10 +105,10 @@ public:
 class G2 : public Command 
 {
 private:
-  float x;
-  float y;
-  float z;
-  float r;
+  float m_x;
+  float m_y;
+  float m_z;
+  float m_r;
 
 public:
   void validate(const vector<string> &token, int n) {
@@ -116,28 +118,27 @@ public:
   }
   
   void createCommand(const vector<string> &token) {
-    map<char, float> mapa;
-    mapa = initialize(token);
-    x = mapa['x'];
-    y = mapa['y'];
-    z = mapa['z'];
-    r = mapa['r'];
+    map<char, float> parameters;
+    parameters = initialize(token);
+    m_x = parameters['x'];
+    m_y = parameters['y'];
+    m_z = parameters['z'];
+    m_r = parameters['r'];
   }
   
   void execute() {
-    cout << "G02 X=" << x << " Y=" << y << " Z=" << z << " R=" << r << endl; 
+    cout << "G02 X=" << m_x << " Y=" << m_y << " Z=" << m_z << " R=" << m_r << endl; 
   }
-  friend class G3;
 };
 
 
 class G3 : public Command 
 {
 private:
-  float x;
-  float y;
-  float z;
-  float r;
+  float m_x;
+  float m_y;
+  float m_z;
+  float m_r;
 
 public:
   void validate(const vector<string> &token, int n) {
@@ -147,15 +148,15 @@ public:
   }
   
   void createCommand(const vector<string> &token) {
-    map<char, float> mapa;
-    mapa = initialize(token);
-    x = mapa['x'];
-    y = mapa['y'];
-    z = mapa['z'];
-    r = mapa['r'];
+    map<char, float> parameters;
+    parameters = initialize(token);
+    m_x = parameters['x'];
+    m_y = parameters['y'];
+    m_z = parameters['z'];
+    m_r = parameters['r'];
   }
   void execute() {
-    cout << "G03 X=" << x << " Y=" << y << " Z=" << z << " R=" << r << endl;
+    cout << "G03 X=" << m_x << " Y=" << m_y << " Z=" << m_z << " R=" << m_r << endl;
   }
 };
 
@@ -166,7 +167,7 @@ Command::SPtr Factory::getCommand(const string &token, int n)
   //std::unique_ptr<Command> UPtr;
   string ss = "Unknown command " + token + " in line number ";
 
-  if(token.size() > 3) {
+  if(token.size() > COMMAND_SIZE) {
     cout << ss << n+1 << endl;
     exit(1);
   }

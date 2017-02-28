@@ -33,8 +33,7 @@ using std::make_shared;
 #include<sstream>
 using std::stringstream;
 
-const int MAX_CHARS_PER_LINE = 512;
-const int MAX_TOKENS_PER_LINE = 20;
+const int COMMAND_SIZE = 3;
 const char* const DELIMITER = (" ");
 const int MAX_Y = 50;
 const int MAX_X = 50;
