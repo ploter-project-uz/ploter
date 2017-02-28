@@ -51,6 +51,7 @@ public:
 
 class Command 
 {
+
 public:
   typedef shared_ptr<Command> SPtr;
   typedef vector<Command::SPtr> vector_SPtr;

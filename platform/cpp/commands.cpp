@@ -40,8 +40,8 @@ map<char,float> Command::initialize(const vector<string> &token)
 
 void Parser::parser(ifstream &fin, int line)
 {
-  char buf[MAX_CHARS_PER_LINE];
-  fin.getline(buf, MAX_CHARS_PER_LINE);
+  string buf;
+  getline(fin, buf);
   split(token, buf, is_any_of(DELIMITER), token_compress_on); //tworzymy tokeny
   if(token.back() == "") //jezeli na koncu linii sa dodatkowe spacje, usuwamy ostatni token ktory jest pusty
     token.pop_back();
