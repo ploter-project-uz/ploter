@@ -26,6 +26,13 @@ using std::map;
 #include<sstream>
 using std::stringstream;
 
+#include<memory>
+using std::shared_ptr;
+using std::make_shared;
+
+#include<sstream>
+using std::stringstream;
+
 const int MAX_CHARS_PER_LINE = 512;
 const int MAX_TOKENS_PER_LINE = 20;
 const char* const DELIMITER = (" ");
@@ -38,19 +45,22 @@ class Command;
 class Factory 
 {
 public:
-  static Command* getCommand(string token, int n);
+  static shared_ptr<Command> getCommand(const string &token, int n);
 };
 
 
 class Command 
 {
 public:
-  virtual void validator(vector<string> token, int n) = 0;
-  virtual void createCommand(vector<string> token) = 0;
+  typedef shared_ptr<Command> SPtr;
+  typedef vector<Command::SPtr> vector_SPtr;
+  virtual ~Command() {}
+  virtual void validate(const vector<string> &token, int n) = 0;
+  virtual void createCommand(const vector<string> &token) = 0;
   virtual void execute() = 0;
-  static void allParametrs(char* parametrs, vector<string> token, int n);
-  static void requiredParametr(char* parametrs, vector<string> token, int n);
-  static map<char, float> initialize(vector<string> token);
+  static void testAllParameters(char* parametrs, const vector<string> &token, int n);
+  static int testRequiredParameter(char* parametrs, const vector<string> &token, int n);
+  static map<char, float> initialize(const vector<string> &token);
 };
 
 
